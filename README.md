@@ -15,7 +15,7 @@ Work in progress, built in small steps. See the roadmap.
 ## Roadmap
 
 - [x] Data layer: BTC (Coinbase) and gold (Yahoo GC=F) daily bars, cached locally
-- [ ] Indicators: SMA, EMA, RSI, ATR, Donchian channels
+- [x] Indicators: SMA, EMA, RSI, ATR, Donchian channels
 - [ ] Price chart with overlays and the current trend regime (above/below SMA200)
 - [ ] Strategy panel: today's signal for each rule-based strategy and its stop distance
 - [ ] Backtest view: equity curve vs buy & hold from paper-trader results
