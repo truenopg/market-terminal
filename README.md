@@ -18,7 +18,7 @@ Work in progress, built in small steps. See the roadmap.
 - [x] Indicators: SMA, EMA, RSI, ATR, Donchian channels
 - [ ] Price chart with overlays and the current trend regime (above/below SMA200)
 - [x] Strategy signals (panel UI pending): today's signal for each rule-based strategy and its stop distance
-- [ ] Backtest view: equity curve vs buy & hold from paper-trader results
+- [x] Backtest engine (view pending): equity curve vs buy & hold from paper-trader results
 - [ ] Tests and CI
 
 ## Run (once the app lands)
