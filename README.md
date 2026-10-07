@@ -45,8 +45,8 @@ is needed for the first download and each refresh.
 The backtest shifts the close-based position by one bar before applying
 close-to-close returns. It is an illustrative return calculation, not an
 execution simulator: no next-open fills, intraday stops, financing, spread
-model or futures roll costs. The current CAGR calculation uses 365 bars per
-year for both markets, so gold's trading-day CAGR is not calendar-accurate.
+model or futures roll costs. CAGR is computed over calendar time
+between the first and last date, so gold and BTC are annualized consistently.
 Total return and drawdown do not use that annualization assumption.
 
 The latest provider candle may still be forming. Cached data can be stale,
