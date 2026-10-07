@@ -18,7 +18,12 @@ def max_drawdown(equity: pd.Series) -> float:
 
 
 def summary(curves: pd.DataFrame, periods: int = 365) -> pd.DataFrame:
-    yrs = len(curves) / periods
+    # Calendar years when the index holds dates (gold trades ~252 bars/year, BTC ~365),
+    # otherwise fall back to a fixed bars-per-year count.
+    if isinstance(curves.index, pd.DatetimeIndex) and len(curves) > 1:
+        yrs = (curves.index[-1] - curves.index[0]).days / 365.25
+    else:
+        yrs = len(curves) / periods
     rows = {}
     for k in curves:
         e = curves[k]
