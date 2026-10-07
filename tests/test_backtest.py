@@ -33,3 +33,16 @@ def test_max_drawdown():
 def test_summary_shape():
     t = summary(run(s([10, 11, 12, 13]), s([1, 1, 1, 1])))
     assert set(t.index) == {"strategy", "buy_hold"} and "max_drawdown" in t.columns
+
+
+def test_cagr_uses_calendar_time_not_bar_count():
+    # 253 weekday-style bars spread over exactly two calendar years: doubling -> CAGR ~ 41%, not 365-bar based
+    idx = pd.to_datetime(["2022-01-01", "2024-01-01"])
+    curves = pd.DataFrame({"strategy": [1.0, 2.0], "buy_hold": [1.0, 2.0]}, index=idx)
+    cagr = summary(curves).loc["strategy", "cagr"]
+    assert abs(cagr - (2 ** (1 / (730 / 365.25)) - 1)) < 1e-9
+
+
+def test_cagr_falls_back_to_periods_without_dates():
+    curves = pd.DataFrame({"strategy": [1.0, 1.21]})
+    assert abs(summary(curves, periods=2).loc["strategy", "cagr"] - (1.21 ** (1 / 1) - 1)) < 1e-9
