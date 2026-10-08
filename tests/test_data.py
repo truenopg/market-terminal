@@ -17,3 +17,12 @@ def test_clean_drops_bad_rows_and_duplicates():
     out = clean(df)
     assert list(out.index) == list(pd.to_datetime(["2024-01-01", "2024-01-02"]))
     assert out.loc["2024-01-02", "open"] == 2  # keeps the last duplicate
+
+
+def test_drop_forming_removes_todays_candle_only():
+    from terminal.data import drop_forming
+    idx = pd.to_datetime(["2024-01-01", "2024-01-02", "2024-01-03"])
+    df = pd.DataFrame({"close": [1.0, 2.0, 3.0]}, index=idx)
+    out = drop_forming(df, now=pd.Timestamp("2024-01-03 15:30"))
+    assert list(out.index) == list(idx[:2])
+    assert len(drop_forming(df, now=pd.Timestamp("2024-01-04 00:00", tz="UTC"))) == 3
