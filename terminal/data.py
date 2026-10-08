@@ -52,11 +52,18 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     return df[ok]
 
 
+def drop_forming(df: pd.DataFrame, now: pd.Timestamp | None = None) -> pd.DataFrame:
+    """Drop a candle dated today (UTC): it is still forming, so its close is not final."""
+    today = (now or pd.Timestamp.now(tz="UTC")).tz_localize(None).normalize() if (now is None or now.tzinfo) \
+        else now.normalize()
+    return df[df.index < today]
+
+
 def load(name: str, refresh: bool = False) -> pd.DataFrame:
     CACHE.mkdir(exist_ok=True)
     f = CACHE / f"{name}.csv"
     if f.exists() and not refresh:
         return pd.read_csv(f, index_col="date", parse_dates=True)
-    df = clean(fetch_coinbase() if name == "BTC" else fetch_yahoo())
+    df = drop_forming(clean(fetch_coinbase() if name == "BTC" else fetch_yahoo()))
     df.to_csv(f)
     return df
