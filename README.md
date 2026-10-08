@@ -49,7 +49,9 @@ model or futures roll costs. CAGR is computed over calendar time
 between the first and last date, so gold and BTC are annualized consistently.
 Total return and drawdown do not use that annualization assumption.
 
-The latest provider candle may still be forming. Cached data can be stale,
+A candle dated today (UTC) is dropped when data is first downloaded, since it
+is still forming; an already cached file is not re-checked until you refresh.
+Cached data can be stale,
 provider requests can fail, and the two markets have different calendars and
 history lengths. Changing lookbacks on the same sample is not an
 out-of-sample test. Nothing here establishes a profitable trading strategy.
