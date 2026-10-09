@@ -1,5 +1,7 @@
 # market-terminal
 
+[![tests](https://github.com/truenopg/market-terminal/actions/workflows/ci.yml/badge.svg)](https://github.com/truenopg/market-terminal/actions/workflows/ci.yml)
+
 A small Streamlit dashboard for daily BTC and gold data: price, trend,
 volatility and a long-only Donchian breakout, with a backtest beside buy & hold.
 No paid feeds, broker connection or live orders.
