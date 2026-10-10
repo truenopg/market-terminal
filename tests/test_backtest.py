@@ -46,3 +46,9 @@ def test_cagr_uses_calendar_time_not_bar_count():
 def test_cagr_falls_back_to_periods_without_dates():
     curves = pd.DataFrame({"strategy": [1.0, 1.21]})
     assert abs(summary(curves, periods=2).loc["strategy", "cagr"] - (1.21 ** (1 / 1) - 1)) < 1e-9
+
+
+def test_round_trip_pays_cost_exactly_twice():
+    # flat prices, one entry and one exit at 50 bps each: equity = (1 - 0.005) ** 2
+    out = run(s([10, 10, 10, 10, 10]), s([0, 1, 0, 0, 0]), cost_bps=50)
+    assert abs(out.strategy.iloc[-1] - (1 - 0.005) ** 2) < 1e-12
