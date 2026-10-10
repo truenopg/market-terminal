@@ -29,3 +29,11 @@ def test_today_flat_has_no_stop():
 def test_today_long_stop_below_close():
     out = today(frame([10] * 60 + [30]), n=20, m=10)
     assert out["position"] == "LONG" and out["stop"] < out["close"]
+
+
+def test_today_stop_is_close_minus_atr_multiple():
+    from terminal.indicators import atr
+    df = frame([10] * 60 + [30])
+    out = today(df, n=20, m=10, stop_atr=2.0)
+    a = atr(df.high, df.low, df.close).iloc[-1]
+    assert abs(out["stop"] - (30 - 2.0 * a)) < 1e-9
