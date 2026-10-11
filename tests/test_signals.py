@@ -37,3 +37,8 @@ def test_today_stop_is_close_minus_atr_multiple():
     out = today(df, n=20, m=10, stop_atr=2.0)
     a = atr(df.high, df.low, df.close).iloc[-1]
     assert abs(out["stop"] - (30 - 2.0 * a)) < 1e-9
+
+
+def test_regime_is_na_when_close_equals_sma():
+    # a perfectly flat series sits exactly on its own SMA: neither up nor down
+    assert regime(pd.Series([5.0] * 250)).iloc[-1] == "n/a"
